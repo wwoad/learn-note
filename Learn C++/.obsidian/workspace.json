@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Effective C++/资源管理.md",
+                "file": "Effective C++/Implementations.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "资源管理"
+              "title": "Implementations"
             }
           }
         ]
@@ -139,10 +139,10 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Effective C++/资源管理.md"
+                "file": "Effective C++/Implementations.md"
               },
               "icon": "lucide-list",
-              "title": "资源管理 的大纲"
+              "title": "Implementations 的大纲"
             }
           }
         ],
@@ -164,6 +164,9 @@
   },
   "active": "af9bb1a63113cbec",
   "lastOpenFiles": [
+    "Effective C++/Design&Statement.md",
+    "Effective C++/Implementations.md",
+    "Effective C++/ResurceManagement.md",
     "Effective C++/构造与赋值.md",
     "Effective C++/初始.md",
     "Effective C++/资源管理.md",
