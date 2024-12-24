@@ -80,17 +80,83 @@ private:
     int x;
 };
 Base b(1);
-b.doSomething().setX(2); // 这回早成很多不符合设计要求的调用,这违背了封装性的原则
+b.doSomething().setX(2); // 这会造成很多不符合设计要求的调用,这违背了封装性的原则
 ```
 
 ---
-
-
-
-
-
+***update : 2024. 12. 24***
+### 注意异常安全(Exception Safety)
+#### 使用RAII(资源获取即初始化)的思想设计程序
+`RAII`利用对象的生命周期自动管理资源,如智能指针, 容器, 其他管理类等自动管理资源
+```cpp
+void addElement(std::vector<int> &v, int element)
+{
+    v.push_back(element); // 如果此时发生异常, 
+    //vector容器会自动释放内存,而不会造成其他未知的异常
+}
+```
+#### 使用Copy-and-swap idiom(拷贝与交换惯用法)
+通过传值和交换的方式确保了强异常安全, 如果在交换过程中抛出异常, 原本的对象会保留其状态, 并且内存不会泄漏. 传值的方式意味着临时对象（`base`）会在返回之前交换它的内容
+```cpp
+class Base
+{
+public:
+    Base(std::string *str, int size)
+        : str(str), size(size) {}
+    Base(Base &&base) noexcept : str(base.str), size(base.size) // 移动构造函数
+    {
+        base.str = nullptr; // 移动之后将原指针置空
+        base.size = 0;      // 修改原数据
+    }
+    Base(const Base &base) // 普通的深拷贝
+    {
+        size = base.size;
+        str = new std::string(*base.str);
+    }
+    Base &operator=(Base base) // 拷贝和交换惯用法,传参形式为值传递
+    {
+        swap(base); // 自定义一个类的交换函数,传入对象与调用对象交换属性
+        return *this;
+    }
+    void swap(Base &base) // 自定义的交换函数
+    {
+        std::swap(str, base.str);
+        std::swap(size, base.size);
+    }
+private:
+    std::string *str;
+    int size;
+};
+```
+#### 避免异常产生资源泄漏
+使用标准库的智能指针 容器 算法等管理资源, 确保异常安全
+```cpp
+void fun1() // 传统的指针操作
+{
+    int *ptr = new int[100];
+    //......一些语句,导致提前return或者报出异常
+    delete ptr; // 上述语句报出异常或者提前return,ptr无法正常释放
+}
+void fun2() // 使用智能指针管理资源
+{
+    std::unique_ptr<int[]> ptr = std::make_unique<int[]>(100);
+    //......一些语句,导致提前return或者报异常
+    // ptr会在函数结束后自动释放,不必担心指针无法正常释放的问题,提高安全性
+}
+void fun3(int arr[10]) //使用vector管理资源
+{
+    std::vector<int> v;
+    for (int i = 0; i < 10; i++)
+        v.push_back(arr[i]);
+    std::cout << *v.begin();
+}
+```
 ---
+### 理解`inline`的使用
+#### `inline`的优点
 
+
+#### 使用方法和适用场景
 
 
 
