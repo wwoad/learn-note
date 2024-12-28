@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Effective C++/Implementations.md",
+                "file": "Effective C++/7 Templates and Generic Programming(模板和泛型编程).md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Implementations"
+              "title": "7 Templates and Generic Programming(模板和泛型编程)"
             }
           }
         ]
@@ -139,10 +139,10 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Effective C++/Implementations.md"
+                "file": "Effective C++/7 Templates and Generic Programming(模板和泛型编程).md"
               },
               "icon": "lucide-list",
-              "title": "Implementations 的大纲"
+              "title": "7 Templates and Generic Programming(模板和泛型编程) 的大纲"
             }
           }
         ],
@@ -164,13 +164,17 @@
   },
   "active": "af9bb1a63113cbec",
   "lastOpenFiles": [
-    "Effective C++/Design&Statement.md",
-    "Effective C++/Implementations.md",
-    "Effective C++/ResurceManagement.md",
+    "Effective C++/6 Inheritance&Object-Oriented Design(继承和面向对象设计).md",
+    "Effective C++/5 Implementations(实现).md",
+    "Effective C++/4 Designs&Declarations(设计和声明).md",
+    "Effective C++/1 StartC++.md",
+    "Effective C++/3 ResurceManagement(资源管理).md",
+    "Effective C++/2 Constructors&Assignment(构造和赋值).md",
+    "Effective C++/7 Templates and Generic Programming(模板和泛型编程).md",
+    "Effective C++/Note.md",
     "Effective C++/构造与赋值.md",
     "Effective C++/初始.md",
     "Effective C++/资源管理.md",
-    "Effective C++/Note.md",
     "欢迎.md",
     "Effective C++"
   ]

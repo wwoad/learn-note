@@ -153,53 +153,103 @@ void fun3(int arr[10]) //使用vector管理资源
 ```
 ---
 ### 理解`inline`的使用
-#### `inline`的优点
-
-
+#### `inline`的优劣
+**优点 :** **减少函数调用开销, 提高性能**, 内联函数将函数体直接插入到调用点，避免了常规函数调用的栈帧开销（如参数压栈、跳转到函数等）, 适合体积小简单的函数 
+**缺点 :**  内联会导致代码膨胀, 内联函数适合体积小, 计算简单的函数, 对于复杂的函数, 内联可能带来不必要的性能损失
 #### 使用方法和适用场景
-
-
-
-
-
-
-
-
-
+`inline` 最常用的场景是在那些非常短小并且频繁调用的函数, 如符号计算函数和简单处理的函数
+```cpp
+namespace Compute // 计算命名空间
+{
+    template <class T>
+    inline T add(T value_1, T value_2) //加法
+    {
+        return value_1 + value_2;
+    }
+    template <class T>
+    inline T multiply(T value_1, T value_2) // 乘法
+    {
+        return value_1 * value_2;
+    }
+}
+float sum = Compute::add(1.0, 1.0);    // 调用计算函数
+float accumulate = Compute::multiply(2.0, 2.0);
+```
 ---
+***update : 2024. 12. 25***
+### 将文件间的依赖关系降到最低
+#### 减少头文件中包含的内容
+##### 使用前置声明(Forward Declarations)和使用 PImpl 习惯用法(Pointer to Implementation)
+要使用对应的头文件内的类时, 可以使用前置声明在头文件中声明, 在`.cpp`内再`include`对应的头文件.  
+**好处 :** 在修改了A . h之后只会增加.cpp文件的编译成本,而 .h则不会受到影响 
+**错误的使用方法**
+```cpp
+// .h文件
+#include<A.h>
+class B
+{
+    A *a;
+};
 
+// .cpp文件
+#include<B.h>
+//......
+```
+**正确的使用方法**
+```cpp
+// .h文件
+class A;A
+class B
+{
+    A *a;
+};
 
+//.cpp文件
+#include<A.h>
+#include<B.h>
+//......
+```
+##### 避免直接在自写头文件中直接包含大型头文件
+如STL 第三方库等大型头文件等, 在头文件中尽量不要直接`#include`  ,而是对要使用的容器或者类使用前置声明
+**错误的做法**
+```cpp
+#include <vector>
+class Base
+{
+    std::vector<int> v;
+};
+```
+**正确的做法**
+```cpp
+// 正确的做法
+namespace std // 前置声明vector
+{
+    template <typename T>
+    class vector;
+}
+class A
+{
+private:
+    std::vector<int> *v; // 不包含vector头文件按,
+                         // 必须不创建对象,而是使用vector指针,
+};
+```
+#### 使用 `#include` Guards 和 `#pragma once`
+`#include guards`（头文件保护）确保每个头文件在编译过程中只被包含一次, 虽然现代编译器通常支持 `#pragma once`，但使用 `#include guards` 更加兼容  
 
+**`#include guards`方法**
+```cpp
+#ifndef MYCLASS_H
+#define MYCLASS_H
 
+// ......
 
+#endif //MYCLASS_H
+```
+**`#pragma once`方法**
+```cpp
+#pragma once
 
-
-
-
-
-
-
-
-
----
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//.......
+```
 ---
